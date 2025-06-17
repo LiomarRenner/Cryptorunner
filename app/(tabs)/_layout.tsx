@@ -1,28 +1,8 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof Ionicons>['name'];
-  color: string;
-}) {
-  return (
-    <View style={{ 
-      width: 44, 
-      height: 44, 
-      borderRadius: 22, 
-      backgroundColor: '#0A0A0A',
-      alignItems: 'center', 
-      justifyContent: 'center',
-      marginTop: 44,
-      opacity: props.color === '#BCFF31' ? 1 : 0.5,
-    }}>
-      <Ionicons size={28} {...props} />
-    </View>
-  );
-}
+import { Tabs } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
+import BaseIcon from '@/components/BaseIcon';
 
 export default function TabLayout() {
   return (
@@ -73,6 +53,17 @@ export default function TabLayout() {
           }}
         />
     </Tabs>
+  );
+}
+
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof Ionicons>['name'];
+  color: string;
+}) {
+  return (
+    <View style={{ marginTop: 44 }}>
+      <BaseIcon size={24} {...props} />
+    </View>
   );
 }
 
