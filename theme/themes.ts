@@ -1,5 +1,3 @@
-import { components } from './components';
-
 const colors = {
   deep_black: '#0A0A0A',
   primary_green: '#BCFF31',
@@ -47,7 +45,6 @@ export const themes = {
   spacing,
   typography,
   shape,
-  components,
 };
 
 export type Theme = typeof themes;

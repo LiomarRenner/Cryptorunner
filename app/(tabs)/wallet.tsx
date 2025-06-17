@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import CContainer from '@/components/core/CContainer'
 
 export default function Wallet() {
   return (
-    <View>
+    <CContainer>
       <Text>Wallet</Text>
-    </View>
+    </CContainer>
   )
 }

@@ -9,14 +9,19 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: true,
+        headerStyle: {
+          backgroundColor: '#0A0A0A',
+          height: 100,
+        },
+        headerTitle: '',
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#BCFF31'
+        tabBarActiveTintColor: '#BCFF31',
+        tabBarShowLabel: false,
       }}>
         <Tabs.Screen
           name="index"
           options={{
             title: 'Home',
-            tabBarShowLabel: false,
             tabBarIcon: ({ color }) => (
               <TabBarIcon name="home" color={color} />
             ),
@@ -26,7 +31,6 @@ export default function TabLayout() {
           name="market"
           options={{
             title: 'Market',
-            tabBarShowLabel: false,
             tabBarIcon: ({ color }) => (
               <TabBarIcon name="stopwatch" color={color} />
             ),
@@ -36,7 +40,6 @@ export default function TabLayout() {
           name='analytics'
           options={{
             title: 'Analytics',
-            tabBarShowLabel: false,
             tabBarIcon: ({ color }) => (
               <TabBarIcon name="stats-chart-sharp" color={color} />
             ),
@@ -46,7 +49,6 @@ export default function TabLayout() {
           name="wallet"
           options={{
             title: 'Wallet',
-            tabBarShowLabel: false,
             tabBarIcon: ({ color }) => (
               <TabBarIcon name="wallet" color={color} />
             ),
@@ -61,7 +63,7 @@ function TabBarIcon(props: {
   color: string;
 }) {
   return (
-    <View style={{ marginTop: 44 }}>
+    <View style={{ marginTop: 44, position: 'absolute' }}>
       <BaseIcon size={24} {...props} />
     </View>
   );
