@@ -24,7 +24,7 @@ const LayoutFirstSection = () => {
       </View>
       <View style={{ width: '100%', paddingHorizontal: 16, paddingVertical: 8 }}>
         <SegmentedToggle
-          options={['Favorites', 'Top', 'Hot', 'Gainers', 'New']}
+          options={['Popular', 'Winners', 'Losers', 'New']}
           onChange={(selected) => console.log('Selecionado:', selected)}
         />
       </View>

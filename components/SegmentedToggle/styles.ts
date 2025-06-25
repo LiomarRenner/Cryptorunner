@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
 		borderRadius: 64,
 	},
 	text: {
-		fontSize: 12,
+		fontSize: 14,
 		fontWeight: '500',
 	},
 	textActive: {
