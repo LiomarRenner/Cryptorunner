@@ -1,86 +1,116 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native'
+import React, { useCallback } from 'react'
 import CContainer from '@/components/core/CContainer'
 import SegmentedToggle from '@/components/SegmentedToggle'
 import Box from '@/components/Box'
 import BaseIcon from '@/components/BaseIcon'
+import useHome, { HomeCategory } from '@/hooks/useHome'
+import { PopularAsset } from '@/mocks/popularAssets'
+import { FlashList, ListRenderItem } from '@shopify/flash-list'
 
 export default function Home() {
+  const { editableData, setSelectedCategory } = useHome();
   return (
     <CContainer>
-      <LayoutFirstSection />
-      <LayoutSecondSection />
+      <LayoutFirstSection setSelectedCategory={setSelectedCategory} />
+      <LayoutSecondSection data={editableData} />
     </CContainer>
   )
 }
 
-const LayoutFirstSection = () => {
-  return (
-    <>
-      <View style={{ width: '50%', paddingHorizontal: 16, paddingVertical: 16 }}>
-        <SegmentedToggle
-          options={['Exchange', 'Wallet']}
-          onChange={(selected) => console.log('Selecionado:', selected)}
-        />
-      </View>
-      <View style={{ width: '100%', paddingHorizontal: 16, paddingVertical: 8 }}>
-        <SegmentedToggle
-          options={['Popular', 'Winners', 'Losers', 'New']}
-          onChange={(selected) => console.log('Selecionado:', selected)}
-        />
-      </View>
-    </>
-  );
-};
+const LayoutFirstSection = ({ setSelectedCategory }: { setSelectedCategory: (v:HomeCategory) => void }) => (
+  <>
+    <View style={{ width: '50%', paddingHorizontal: 16, paddingVertical: 16 }}>
+      <SegmentedToggle
+        options={['Exchange', 'Wallet']}
+        onChange={(selected) => console.log('Selecionado:', selected)}
+      />
+    </View>
+    <View style={{ width: '100%', paddingHorizontal: 16, paddingVertical: 8 }}>
+      <SegmentedToggle
+        options={['Popular', 'Winners', 'Losers']}
+        onChange={(selected) => setSelectedCategory(selected as HomeCategory)}
+      />
+    </View>
+  </>
+);
 
-const LayoutSecondSection = () => {
-  return (
-    <Box>
-      <View style={{ gap: 16, alignContent: 'center' }}>
-        <TitleBoxSection />
-        <BodyBoxSection />
-      </View>
-    </Box>
-  );
-};
+const LayoutSecondSection = ({ data }: { data: PopularAsset[] }) => (
+  <Box>
+    <View style={{ gap: 16, alignContent: 'center', flex: 1 }}>
+      <TitleBoxSection />
+      <BodyBoxSection data={data} />
+    </View>
+  </Box>
+);
 
-const TitleBoxSection = () => {
-  return (
-    <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
-      <View style={{ flex: 1, alignItems: 'flex-start' }}>
-        <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Name / Turnover</Text>
-      </View>
-      <View style={{ flex: 1, alignItems: 'flex-end' }}>
-        <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Last Price</Text>
-      </View>
-      <View style={{ flex: 1, alignItems: 'flex-end' }}>
-        <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Change</Text>
+const TitleBoxSection = () => (
+  <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
+    <View style={{ flex: 1, alignItems: 'flex-start' }}>
+      <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Name / Turnover</Text>
+    </View>
+    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+      <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Last Price</Text>
+    </View>
+    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+      <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Change</Text>
+    </View>
+  </View>
+);
+
+const ThinLine = React.memo(() => (
+  <View style={{ height: 1, backgroundColor: '#666', marginVertical: 16 }} />
+));
+
+const AssetRow = React.memo(({ item }: { item: PopularAsset }) => (
+  <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
+    <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', gap: 8 }}>
+      <BaseIcon name={item.iconName} backgroundColor='#888' color='white' />
+      <Text style={{ fontSize: 14, fontWeight: '400', color: 'white' }}>{item.coin}</Text>
+    </View>
+    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+      <Text style={{ fontSize: 14, fontWeight: '400', color: 'white' }}>{item.lastPrice}</Text>
+    </View>
+    <View style={{ flex: 1, alignItems: 'flex-end' }}>
+      <View
+        style={{
+          alignItems: 'center',
+          borderRadius: 64,
+          paddingVertical: 8,
+          paddingHorizontal: 12,
+          backgroundColor: item.change.includes('-') ? '#FF4D4F' : '#BCFF31',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 14,
+            fontWeight: '400',
+            color: item.change.includes('-') ? 'white' : 'black',
+          }}
+        >
+          {item.change}
+        </Text>
       </View>
     </View>
-  );
-};
+  </View>
+));
 
-const BodyBoxSection = () => {
+const BodyBoxSection = ({ data }: { data: PopularAsset[] }) => {
+  const renderItem: ListRenderItem<PopularAsset> = useCallback(
+    ({ item }) => <AssetRow item={item} />,
+    []
+  );
+
   return (
-    <>
-      <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', gap: 8 }}>
-          <BaseIcon name="logo-bitcoin" backgroundColor='#888' color='white' />
-          <Text style={{ fontSize: 14, fontWeight: '400', color: 'white' }}>BTC / USDT</Text>
-        </View>
-        <View style={{ flex: 1, alignItems: 'flex-end' }}>
-          <Text style={{ fontSize: 14, fontWeight: '400', color: 'white' }}>$63,680</Text>
-        </View>
-        <View style={{ flex: 1, alignItems: 'flex-end' }}>
-          <View style={{ alignItems: 'center', borderRadius: 64, paddingVertical: 8, paddingHorizontal: 12, backgroundColor: '#BCFF31' }}>
-            <Text style={{ fontSize: 14, fontWeight: '400', color: 'black' }}>+0.80%</Text>
-          </View>
-        </View>
-      </View>
-      <ThinLine />
-    </>
+    <FlashList
+      data={data}
+      keyExtractor={(item) => item.id}
+      renderItem={renderItem}
+      estimatedItemSize={60}
+      ItemSeparatorComponent={ThinLine}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 24 }}
+      ListFooterComponent={<View style={{ height: 72 }} />}
+    />
   );
 };
-
-
-const ThinLine = () => <View style={{ height: 1, backgroundColor: '#666', marginVertical: 8 }} />;
