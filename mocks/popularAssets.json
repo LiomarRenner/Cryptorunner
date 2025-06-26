@@ -3,18 +3,18 @@
     "icon": "bitcoin",
     "name": "BTC/USDT",
     "lastPrice": "$67,500.00",
-    "change": "+2.5%"
+    "change": "+2.50%"
   },
   {
     "icon": "bitcoin",
     "name": "ETH/USDT",
     "lastPrice": "$3,500.00",
-    "change": "-1.2%"
+    "change": "-1.20%"
   },
   {
     "icon": "bitcoin",
     "name": "DOGE/USDT",
     "lastPrice": "$0.145",
-    "change": "+0.8%"
+    "change": "+0.80%"
   }
 ]
