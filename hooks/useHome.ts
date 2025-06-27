@@ -13,7 +13,7 @@ const useHome = () => {
 		Losers: losers,
 	};
 
-	const [editableData, setEditableData] = useState<PopularAsset[]>(popular);
+	const [choosedData, setEditableData] = useState<PopularAsset[]>(popular);
 	const [selectedCategory, setSelectedCategory] = useState<HomeCategory>("Popular");
 
 	useEffect(() => {
@@ -21,7 +21,7 @@ const useHome = () => {
 	}, [selectedCategory]);
 
 	return {
-		editableData,
+		choosedData,
 		setSelectedCategory,
 	}
 };

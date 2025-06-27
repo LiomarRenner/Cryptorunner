@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import CContainer from '@/components/core/CContainer'
 import SegmentedToggle from '@/components/SegmentedToggle'
 import Box from '@/components/Box'
@@ -9,11 +9,11 @@ import { PopularAsset } from '@/mocks/popularAssets'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
 
 export default function Home() {
-  const { editableData, setSelectedCategory } = useHome();
+  const { choosedData, setSelectedCategory } = useHome();
   return (
     <CContainer>
       <LayoutFirstSection setSelectedCategory={setSelectedCategory} />
-      <LayoutSecondSection data={editableData} />
+      <LayoutSecondSection data={choosedData} />
     </CContainer>
   )
 }
@@ -58,11 +58,11 @@ const TitleBoxSection = () => (
   </View>
 );
 
-const ThinLine = React.memo(() => (
+const ThinLine = memo(() => (
   <View style={{ height: 1, backgroundColor: '#666', marginVertical: 16 }} />
 ));
 
-const AssetRow = React.memo(({ item }: { item: PopularAsset }) => (
+const AssetRow = memo(({ item }: { item: PopularAsset }) => (
   <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
     <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', gap: 8 }}>
       <BaseIcon name={item.iconName} backgroundColor='#888' color='white' />
