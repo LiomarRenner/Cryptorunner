@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import BaseIcon from '@/components/BaseIcon';
 
 export default function TabLayout() {
@@ -17,6 +17,11 @@ export default function TabLayout() {
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: '#BCFF31',
         tabBarShowLabel: false,
+        headerLeft: () => (
+          <Pressable style={{ marginLeft: 16 }} onPress={() => console.log('Menu Pressed')}>
+            <BaseIcon name='person' size={24} color="#BCFF31" />
+          </Pressable>
+        ),
       }}>
         <Tabs.Screen
           name="index"
