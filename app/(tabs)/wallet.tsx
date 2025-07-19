@@ -57,13 +57,13 @@ const CButton = ({ onPress, text }: { onPress: () => void; text: string }) => (
 
 const SocialLogin = () => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginVertical: 16 }}>
-    <Pressable style={styles.imageContainer} onPress={() => console.log('Google Login Pressed')}>
+    <Pressable onPress={() => console.log('Google Login Pressed')}>
       <BaseIcon name='logo-google' color='#BCFF31' size={44} />  
     </Pressable>
-    <Pressable style={styles.imageContainer} onPress={() => console.log('Apple Login Pressed')}>
+    <Pressable onPress={() => console.log('Apple Login Pressed')}>
       <BaseIcon name='logo-apple' color='#BCFF31' size={44} />
     </Pressable>
-    <Pressable style={styles.imageContainer} onPress={() => console.log('Facebook Login Pressed')}>
+    <Pressable onPress={() => console.log('Facebook Login Pressed')}>
       <BaseIcon name='logo-facebook' color='#BCFF31' size={44} />
     </Pressable>
   </View>
