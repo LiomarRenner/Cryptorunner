@@ -68,10 +68,3 @@ const SocialLogin = () => (
     </Pressable>
   </View>
 );  
-
-export const styles = StyleSheet.create({
-  imageContainer: {
-
-  }, 
-
-});
