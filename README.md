@@ -9,7 +9,7 @@ The goal of this project is to explore UI composition: theme tokens, small reusa
 ## What is in place
 
 - **Home**: an Exchange / Wallet toggle.
-  - *Exchange* shows a market list (pair, last price, change) with a Popular / Winners / Losers filter.
+  - *Exchange* shows a market list (pair, 24h volume, last price, change) with a Popular / Winners / Losers filter.
   - *Wallet* shows a mocked portfolio: total balance and change, an allocation bar with a legend, and the list of holdings. Totals and allocation are computed from the holdings.
   - Both views have loading, error-with-retry and content states.
 - **Wallet tab**: a static sign-up screen (sign-up button, social login icons, log-in link). The buttons are not wired to any flow.
@@ -51,14 +51,16 @@ Pointing the app at a real backend means writing another class that implements `
 
 ## Running locally
 
-Requirements: Node.js 18.18 or newer (the minimum declared by React Native 0.79 and Metro), and either Expo Go on a device or an iOS simulator / Android emulator.
+Requirements: Node.js 18.18 or newer (the minimum declared by React Native 0.79 and Metro).
 
 ```bash
 npm install
 npm start
 ```
 
-Then press `i` for the iOS simulator, `a` for the Android emulator, or scan the QR code with Expo Go.
+`npm start` runs the Expo dev server; `npm run ios`, `npm run android` and `npm run web` start it for a specific platform.
+
+The JavaScript bundle builds for all three platforms with `npx expo export --platform web|ios|android`. Running the app on a device or simulator has not been re-checked since the latest changes.
 
 ## Scripts
 
@@ -67,6 +69,7 @@ Then press `i` for the iOS simulator, `a` for the Android emulator, or scan the 
 | `npm start`       | Start the Expo dev server            |
 | `npm run ios`     | Start and open the iOS simulator     |
 | `npm run android` | Start and open the Android emulator  |
+| `npm run web`     | Start the dev server for the web     |
 | `npm test`        | Run the Vitest unit tests once       |
 
 Type checking: `npx tsc --noEmit`.
