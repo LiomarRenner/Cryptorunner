@@ -1,36 +1,15 @@
+import useLoadable from "@/hooks/useLoadable";
 import { marketService } from "@/services/market-service";
-import type { LoadStatus } from "@/types/load-status";
 import type { HomeCategory, PopularAsset } from "@/types/market";
 import { buildCategoryMap } from "@/utils/market";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+
+const EMPTY_ASSETS: PopularAsset[] = [];
+const loadPopularAssets = () => marketService.getPopularAssets();
 
 const useHome = () => {
-	const [popular, setPopular] = useState<PopularAsset[]>([]);
-	const [status, setStatus] = useState<LoadStatus>("loading");
-	const [requestId, setRequestId] = useState(0);
+	const { data: popular = EMPTY_ASSETS, status, retry } = useLoadable(loadPopularAssets);
 	const [selectedCategory, setSelectedCategory] = useState<HomeCategory>("Popular");
-
-	useEffect(() => {
-		let isActive = true;
-		marketService
-			.getPopularAssets()
-			.then(data => {
-				if (!isActive) return;
-				setPopular(data);
-				setStatus("success");
-			})
-			.catch(() => {
-				if (isActive) setStatus("error");
-			});
-		return () => {
-			isActive = false;
-		};
-	}, [requestId]);
-
-	const retry = useCallback(() => {
-		setStatus("loading");
-		setRequestId(id => id + 1);
-	}, []);
 
 	const categoryMap = useMemo(() => buildCategoryMap(popular), [popular]);
 	const assets = categoryMap[selectedCategory];
