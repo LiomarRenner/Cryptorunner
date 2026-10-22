@@ -3,23 +3,23 @@ import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import BaseIcon from '@/components/BaseIcon';
+import { themes } from '@/theme/themes';
+
+const { colors, spacing } = themes;
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: true,
-        headerStyle: {
-          backgroundColor: '#0A0A0A',
-          height: 100,
-        },
+        headerStyle: styles.header,
         headerTitle: '',
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#BCFF31',
+        tabBarActiveTintColor: colors.primary_green,
         tabBarShowLabel: false,
         headerLeft: () => (
-          <Pressable style={{ marginLeft: 16 }}>
-            <BaseIcon name='person' size={24} color="#BCFF31" />
+          <Pressable style={styles.headerLeft}>
+            <BaseIcon name='person' size={24} color={colors.primary_green} />
           </Pressable>
         ),
       }}>
@@ -68,13 +68,24 @@ function TabBarIcon(props: {
   color: string;
 }) {
   return (
-    <View style={{ marginTop: 44, position: 'absolute' }}>
+    <View style={styles.tabBarIcon}>
       <BaseIcon size={24} {...props} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: colors.deep_black,
+    height: 100,
+  },
+  headerLeft: {
+    marginLeft: spacing.md,
+  },
+  tabBarIcon: {
+    marginTop: 44,
+    position: 'absolute',
+  },
   tabBar: {
     position: 'absolute',
     bottom: 20,
@@ -83,9 +94,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 80,
     borderRadius: 36,
-    backgroundColor: '#94978F',
+    backgroundColor: colors.gray,
     elevation: 5,
-    shadowColor: '#0A0A0A',
+    shadowColor: colors.deep_black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,

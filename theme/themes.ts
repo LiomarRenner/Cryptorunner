@@ -6,8 +6,11 @@ const colors = {
   white: '#FFFFFF',
   // Semantic tokens
   text_muted: '#888888',
+  text_secondary: '#808080',
+  accent_muted: '#99CC33',
   on_primary: '#000000',
   divider: '#666666',
+  divider_subtle: '#808080',
   gain: '#BCFF31',
   loss: '#FF4D4F',
 };

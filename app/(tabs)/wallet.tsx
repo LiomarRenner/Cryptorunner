@@ -3,14 +3,19 @@ import React from 'react'
 import CContainer from '@/components/core/CContainer'
 import Box from '@/components/Box'
 import BaseIcon from '@/components/BaseIcon'
+import { themes } from '@/theme/themes'
+
+const { colors, spacing, fontSize } = themes;
+
+const SOCIAL_ICON_SIZE = 44;
 
 export default function Wallet() {
   return (
     <CContainer>
-      <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.hero}>
         <Image
           source={require('@/assets/images/cryptorunner.png')}
-          style={{ width: 250, height: 250, borderRadius: 100 }}
+          style={styles.heroImage}
           resizeMode='contain'
         />
       </View>
@@ -26,45 +31,115 @@ export default function Wallet() {
 }
 
 const AlreadyHaveAccount = () => (
-  <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center', marginVertical: 16 }}>
-    <Text style={{ color: 'gray' }}>Already have an account?</Text>
+  <View style={styles.accountRow}>
+    <Text style={styles.secondaryText}>Already have an account?</Text>
     <Pressable>
-      <Text style={{ color: '#BCFF31' }}>Log in</Text>
+      <Text style={styles.linkText}>Log in</Text>
     </Pressable>
   </View>
 );
 
 const ContinueLine = () => (
-  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 16 }}>
-    <View style={{ flex: 1, height: 1, backgroundColor: 'gray' }} />
-    <Text style={{ marginHorizontal: 8, color: 'gray' }}>or continue with</Text>
-    <View style={{ flex: 1, height: 1, backgroundColor: 'gray' }} />
+  <View style={styles.continueRow}>
+    <View style={styles.continueLine} />
+    <Text style={[styles.secondaryText, styles.continueText]}>or continue with</Text>
+    <View style={styles.continueLine} />
   </View>
 );
 
 const BoxTitleSubtitle = ({ title, subtitle }: { title: string; subtitle: string }) => (
-  <View style={{ alignItems: 'center', gap: 8 }}>
-    <Text style={{ color: 'white', fontSize: 24, fontWeight: 'bold' }}>{title}</Text>
-    <Text style={{ color: 'gray', fontSize: 16 }}>{subtitle}</Text>
+  <View style={styles.titleBlock}>
+    <Text style={styles.title}>{title}</Text>
+    <Text style={styles.subtitle}>{subtitle}</Text>
   </View>
 );
 
 const CButton = ({ onPress, text }: { onPress?: () => void; text: string }) => (
-  <Pressable onPress={onPress} style={{ backgroundColor: '#BCFF31', padding: 16, borderRadius: 38, marginVertical: 16 }}>
-    <Text style={{ color: 'black', fontWeight: '500', textAlign: 'center', fontSize: 16 }}>{text}</Text>
+  <Pressable onPress={onPress} style={styles.button}>
+    <Text style={styles.buttonText}>{text}</Text>
   </Pressable>
 )
 
 const SocialLogin = () => (
-  <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginVertical: 16 }}>
+  <View style={styles.socialRow}>
     <Pressable>
-      <BaseIcon name='logo-google' color='#BCFF31' size={44} />  
+      <BaseIcon name='logo-google' color={colors.primary_green} size={SOCIAL_ICON_SIZE} />
     </Pressable>
     <Pressable>
-      <BaseIcon name='logo-apple' color='#BCFF31' size={44} />
+      <BaseIcon name='logo-apple' color={colors.primary_green} size={SOCIAL_ICON_SIZE} />
     </Pressable>
     <Pressable>
-      <BaseIcon name='logo-facebook' color='#BCFF31' size={44} />
+      <BaseIcon name='logo-facebook' color={colors.primary_green} size={SOCIAL_ICON_SIZE} />
     </Pressable>
   </View>
-);  
+);
+
+const styles = StyleSheet.create({
+  hero: {
+    flex: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heroImage: {
+    width: 250,
+    height: 250,
+    borderRadius: 100,
+  },
+  accountRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: spacing.md,
+  },
+  secondaryText: {
+    color: colors.text_secondary,
+  },
+  linkText: {
+    color: colors.primary_green,
+  },
+  continueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: spacing.md,
+  },
+  continueLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.divider_subtle,
+  },
+  continueText: {
+    marginHorizontal: spacing.sm,
+  },
+  titleBlock: {
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  title: {
+    color: colors.white,
+    fontSize: fontSize.xl,
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    color: colors.text_secondary,
+    fontSize: fontSize.md,
+  },
+  button: {
+    backgroundColor: colors.primary_green,
+    padding: spacing.md,
+    borderRadius: 38,
+    marginVertical: spacing.md,
+  },
+  buttonText: {
+    color: colors.on_primary,
+    fontWeight: '500',
+    textAlign: 'center',
+    fontSize: fontSize.md,
+  },
+  socialRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: spacing.md,
+  },
+});
