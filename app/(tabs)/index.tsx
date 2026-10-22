@@ -9,11 +9,11 @@ import { PopularAsset } from '@/mocks/popularAssets'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
 
 export default function Home() {
-  const { choosedData, setSelectedCategory } = useHome();
+  const { assets, setSelectedCategory } = useHome();
   return (
     <CContainer>
       <LayoutFirstSection setSelectedCategory={setSelectedCategory} />
-      <LayoutSecondSection data={choosedData} />
+      <LayoutSecondSection data={assets} />
     </CContainer>
   )
 }

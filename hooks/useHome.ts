@@ -1,29 +1,24 @@
 import popularAssets, { PopularAsset } from "@/mocks/popularAssets";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export type HomeCategory = "Popular" | "Winners" | "Losers";
 
-const useHome = () => {
-	const popular = popularAssets;
-	const winners = popular.filter(asset => asset.change.trim().startsWith('+'));
-	const losers = popular.filter(asset => asset.change.trim().startsWith('-'));
-	const categoryMap: Record<HomeCategory, PopularAsset[]> = {
-		Popular: popular,
-		Winners: winners,
-		Losers: losers,
-	};
+// The mock list is static, so the category buckets are computed once.
+const categoryMap: Record<HomeCategory, PopularAsset[]> = {
+	Popular: popularAssets,
+	Winners: popularAssets.filter(asset => asset.change.trim().startsWith('+')),
+	Losers: popularAssets.filter(asset => asset.change.trim().startsWith('-')),
+};
 
-	const [choosedData, setEditableData] = useState<PopularAsset[]>(popular);
+const useHome = () => {
 	const [selectedCategory, setSelectedCategory] = useState<HomeCategory>("Popular");
 
-	useEffect(() => {
-		setEditableData(categoryMap[selectedCategory] || popular);
-	}, [selectedCategory]);
+	const assets = categoryMap[selectedCategory];
 
 	return {
-		choosedData,
+		assets,
 		setSelectedCategory,
-	}
+	};
 };
 
 export default useHome;
