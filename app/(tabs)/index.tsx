@@ -9,6 +9,7 @@ import type { HomeCategory, PopularAsset } from '@/types/market'
 import type { LoadStatus } from '@/types/load-status'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
 import { themes } from '@/theme/themes'
+import { formatPercent, formatUsd } from '@/utils/format'
 
 const { colors, spacing, fontSize, shape } = themes;
 
@@ -89,7 +90,7 @@ const TitleBoxSection = () => (
 const ThinLine = memo(() => <View style={styles.separator} />);
 
 const AssetRow = memo(({ item }: { item: PopularAsset }) => {
-  const isNegative = item.change.includes('-');
+  const isNegative = item.changePct < 0;
   return (
     <View style={styles.row}>
       <View style={styles.coinColumn}>
@@ -97,12 +98,12 @@ const AssetRow = memo(({ item }: { item: PopularAsset }) => {
         <Text style={styles.valueText}>{item.coin}</Text>
       </View>
       <View style={styles.columnEnd}>
-        <Text style={styles.valueText}>{item.lastPrice}</Text>
+        <Text style={styles.valueText}>{formatUsd(item.priceUsd)}</Text>
       </View>
       <View style={styles.columnEnd}>
         <View style={[styles.changeBadge, isNegative ? styles.changeBadgeNegative : styles.changeBadgePositive]}>
           <Text style={[styles.changeText, isNegative ? styles.changeTextNegative : styles.changeTextPositive]}>
-            {item.change}
+            {formatPercent(item.changePct)}
           </Text>
         </View>
       </View>
