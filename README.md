@@ -17,7 +17,7 @@ The look is inspired by cyberpunk aesthetics and *Blade Runner*: near-black surf
   - *Wallet* shows a mocked portfolio: total balance and change, an allocation bar with a legend, and the list of holdings. Totals and allocation are computed from the holdings.
   - Both views have loading, error-with-retry and content states.
 - **Wallet tab**: a static sign-up screen (sign-up button, social login icons, log-in link). The buttons are not wired to any flow.
-- **Market** and **Analytics**: placeholder tabs.
+- **Market** and **Analytics**: not built yet; each shows a "Coming soon" state.
 - A floating tab bar and a shared header.
 
 ## Stack
@@ -34,7 +34,7 @@ The look is inspired by cyberpunk aesthetics and *Blade Runner*: near-black surf
 app/                 Expo Router routes
   _layout.tsx        Root stack, fonts, splash screen
   (tabs)/            Tab navigator and the four tab screens
-components/          Reusable UI (AssetRow, LoadState, WalletOverview, SegmentedToggle, Box, BaseIcon, core/CContainer)
+components/          Reusable UI (AssetRow, LoadState, WalletOverview, ComingSoon, SegmentedToggle, Box, BaseIcon, core/CContainer)
 hooks/               Data hooks (useHome, useWallet, and the generic useLoadable)
 services/            MarketService interface and its mock implementation
 mocks/               Static mock data used by the mock service
@@ -77,3 +77,9 @@ Verified running on the iOS simulator (iPhone 17 Pro, Expo Go). The JavaScript b
 | `npm test`        | Run the Vitest unit tests once       |
 
 Type checking: `npx tsc --noEmit`.
+
+Type checking and tests run on every pull request through GitHub Actions.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
