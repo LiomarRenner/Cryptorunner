@@ -3,23 +3,31 @@ import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import BaseIcon from '@/components/BaseIcon';
+import { themes } from '@/theme/themes';
+
+const { colors, spacing } = themes;
+
+const HEADER_HEIGHT = 100;
+const HEADER_ICON_SIZE = 24;
+const TAB_ICON_SIZE = 24;
+const TAB_ICON_MARGIN_TOP = 44;
+const TAB_BAR_HEIGHT = 80;
+const TAB_BAR_RADIUS = 36;
+const TAB_BAR_BOTTOM_OFFSET = 20;
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: true,
-        headerStyle: {
-          backgroundColor: '#0A0A0A',
-          height: 100,
-        },
+        headerStyle: styles.header,
         headerTitle: '',
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#BCFF31',
+        tabBarActiveTintColor: colors.primary_green,
         tabBarShowLabel: false,
         headerLeft: () => (
-          <Pressable style={{ marginLeft: 16 }} onPress={() => console.log('Menu Pressed')}>
-            <BaseIcon name='person' size={24} color="#BCFF31" />
+          <Pressable style={styles.headerLeft}>
+            <BaseIcon name='person' size={HEADER_ICON_SIZE} color={colors.primary_green} />
           </Pressable>
         ),
       }}>
@@ -68,24 +76,35 @@ function TabBarIcon(props: {
   color: string;
 }) {
   return (
-    <View style={{ marginTop: 44, position: 'absolute' }}>
-      <BaseIcon size={24} {...props} />
+    <View style={styles.tabBarIcon}>
+      <BaseIcon size={TAB_ICON_SIZE} {...props} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: colors.deep_black,
+    height: HEADER_HEIGHT,
+  },
+  headerLeft: {
+    marginLeft: spacing.s16,
+  },
+  tabBarIcon: {
+    marginTop: TAB_ICON_MARGIN_TOP,
+    position: 'absolute',
+  },
   tabBar: {
     position: 'absolute',
-    bottom: 20,
+    bottom: TAB_BAR_BOTTOM_OFFSET,
     marginHorizontal: '5%',
     width: '90%',
     alignSelf: 'center',
-    height: 80,
-    borderRadius: 36,
-    backgroundColor: '#94978F',
+    height: TAB_BAR_HEIGHT,
+    borderRadius: TAB_BAR_RADIUS,
+    backgroundColor: colors.gray,
     elevation: 5,
-    shadowColor: '#0A0A0A',
+    shadowColor: colors.deep_black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,

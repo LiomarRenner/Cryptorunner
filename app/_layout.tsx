@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -13,7 +14,6 @@ export {
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
 
@@ -48,7 +48,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.root}>
       <StatusBar style="light" />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -56,3 +56,9 @@ function RootLayoutNav() {
     </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+});

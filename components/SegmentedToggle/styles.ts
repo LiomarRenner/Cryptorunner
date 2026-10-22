@@ -1,12 +1,15 @@
 import { StyleSheet } from 'react-native';
+import { themes } from '@/theme/themes';
+
+const { colors, shape, fontSize } = themes;
 
 export const styles = StyleSheet.create({
 	container: {
 		width: '100%',
 		minHeight: 48,
 		flexDirection: 'row',
-		backgroundColor: '#99CC33',
-		borderRadius: 64,
+		backgroundColor: colors.accent_muted,
+		borderRadius: shape.pill,
 		position: 'relative',
 		overflow: 'hidden',
 	},
@@ -14,21 +17,21 @@ export const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderRadius: 64,
+		borderRadius: shape.pill,
 	},
 	indicator: {
 		position: 'absolute',
-		backgroundColor: '#0A0A0A',
-		borderRadius: 64,
+		backgroundColor: colors.deep_black,
+		borderRadius: shape.pill,
 	},
 	text: {
-		fontSize: 14,
+		fontSize: fontSize.sm,
 		fontWeight: '500',
 	},
 	textActive: {
-		color: 'white',
+		color: colors.white,
 	},
 	textInactive: {
-		color: '#0A0A0A',
+		color: colors.deep_black,
 	},
 });

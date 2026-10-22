@@ -1,32 +1,68 @@
-import { View, Text } from 'react-native'
-import React, { memo, useCallback } from 'react'
+import { View, StyleSheet } from 'react-native'
+import React, { useCallback, useState } from 'react'
 import CContainer from '@/components/core/CContainer'
 import SegmentedToggle from '@/components/SegmentedToggle'
 import Box from '@/components/Box'
-import BaseIcon from '@/components/BaseIcon'
-import useHome, { HomeCategory } from '@/hooks/useHome'
-import { PopularAsset } from '@/mocks/popularAssets'
+import AssetRow, { AssetColumnsHeader, AssetSeparator } from '@/components/AssetRow'
+import LoadState from '@/components/LoadState'
+import WalletOverview from '@/components/WalletOverview'
+import useHome from '@/hooks/useHome'
+import useWallet from '@/hooks/useWallet'
+import type { HomeCategory, HomeMode, PopularAsset } from '@/types/market'
+import type { LoadStatus } from '@/types/load-status'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
+import { themes } from '@/theme/themes'
+import { formatCompactUsd, formatUsd } from '@/utils/format'
 
+const { spacing } = themes;
+
+const ESTIMATED_ROW_HEIGHT = 60;
+// Leaves room so the last row is not hidden behind the floating tab bar.
+const LIST_FOOTER_HEIGHT = 72;
+
+// Data for both modes is loaded here, so switching modes does not refetch.
+// The category toggle is hidden instead of unmounted to keep its position.
 export default function Home() {
-  const { choosedData, setSelectedCategory } = useHome();
+  const [mode, setMode] = useState<HomeMode>('Exchange');
+  const market = useHome();
+  const wallet = useWallet();
+  const isExchange = mode === 'Exchange';
+
   return (
     <CContainer>
-      <LayoutFirstSection setSelectedCategory={setSelectedCategory} />
-      <LayoutSecondSection data={choosedData} />
+      <LayoutFirstSection
+        isExchange={isExchange}
+        setMode={setMode}
+        setSelectedCategory={market.setSelectedCategory}
+      />
+      {isExchange ? (
+        <LayoutSecondSection data={market.assets} status={market.status} onRetry={market.retry} />
+      ) : (
+        <Box>
+          <LoadState status={wallet.status} errorMessage='Could not load wallet.' onRetry={wallet.retry}>
+            {wallet.summary && <WalletOverview summary={wallet.summary} allocation={wallet.allocation} />}
+          </LoadState>
+        </Box>
+      )}
     </CContainer>
   )
 }
 
-const LayoutFirstSection = ({ setSelectedCategory }: { setSelectedCategory: (v:HomeCategory) => void }) => (
+type LayoutFirstSectionProps = {
+  isExchange: boolean;
+  setMode: (mode: HomeMode) => void;
+  setSelectedCategory: (category: HomeCategory) => void;
+};
+
+const LayoutFirstSection = ({ isExchange, setMode, setSelectedCategory }: LayoutFirstSectionProps) => (
   <>
-    <View style={{ width: '50%', paddingHorizontal: 16, paddingVertical: 16 }}>
+    <View style={styles.modeToggle}>
       <SegmentedToggle
         options={['Exchange', 'Wallet']}
-        onChange={(selected) => console.log('Selecionado:', selected)}
+        onChange={(selected) => setMode(selected as HomeMode)}
       />
     </View>
-    <View style={{ width: '100%', paddingHorizontal: 16, paddingVertical: 8 }}>
+    <View style={[styles.categoryToggle, !isExchange && styles.hidden]}>
       <SegmentedToggle
         options={['Popular', 'Winners', 'Losers']}
         onChange={(selected) => setSelectedCategory(selected as HomeCategory)}
@@ -35,69 +71,34 @@ const LayoutFirstSection = ({ setSelectedCategory }: { setSelectedCategory: (v:H
   </>
 );
 
-const LayoutSecondSection = ({ data }: { data: PopularAsset[] }) => (
+type LayoutSecondSectionProps = {
+  data: PopularAsset[];
+  status: LoadStatus;
+  onRetry: () => void;
+};
+
+const LayoutSecondSection = ({ data, status, onRetry }: LayoutSecondSectionProps) => (
   <Box>
-    <View style={{ gap: 16, alignContent: 'center', flex: 1 }}>
-      <TitleBoxSection />
-      <BodyBoxSection data={data} />
+    <View style={styles.boxContent}>
+      <AssetColumnsHeader labels={['Name / Turnover', 'Last Price', 'Change']} />
+      <LoadState status={status} errorMessage='Could not load assets.' onRetry={onRetry}>
+        <BodyBoxSection data={data} />
+      </LoadState>
     </View>
   </Box>
 );
 
-const TitleBoxSection = () => (
-  <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
-    <View style={{ flex: 1, alignItems: 'flex-start' }}>
-      <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Name / Turnover</Text>
-    </View>
-    <View style={{ flex: 1, alignItems: 'flex-end' }}>
-      <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Last Price</Text>
-    </View>
-    <View style={{ flex: 1, alignItems: 'flex-end' }}>
-      <Text style={{ fontSize: 14, fontWeight: '400', color: '#888' }}>Change</Text>
-    </View>
-  </View>
-);
-
-const ThinLine = memo(() => (
-  <View style={{ height: 1, backgroundColor: '#666', marginVertical: 16 }} />
-));
-
-const AssetRow = memo(({ item }: { item: PopularAsset }) => (
-  <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
-    <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', gap: 8 }}>
-      <BaseIcon name={item.iconName} backgroundColor='#888' color='white' />
-      <Text style={{ fontSize: 14, fontWeight: '400', color: 'white' }}>{item.coin}</Text>
-    </View>
-    <View style={{ flex: 1, alignItems: 'flex-end' }}>
-      <Text style={{ fontSize: 14, fontWeight: '400', color: 'white' }}>{item.lastPrice}</Text>
-    </View>
-    <View style={{ flex: 1, alignItems: 'flex-end' }}>
-      <View
-        style={{
-          alignItems: 'center',
-          borderRadius: 64,
-          paddingVertical: 8,
-          paddingHorizontal: 12,
-          backgroundColor: item.change.includes('-') ? '#FF4D4F' : '#BCFF31',
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: '400',
-            color: item.change.includes('-') ? 'white' : 'black',
-          }}
-        >
-          {item.change}
-        </Text>
-      </View>
-    </View>
-  </View>
-));
-
 const BodyBoxSection = ({ data }: { data: PopularAsset[] }) => {
   const renderItem: ListRenderItem<PopularAsset> = useCallback(
-    ({ item }) => <AssetRow item={item} />,
+    ({ item }) => (
+      <AssetRow
+        iconName={item.iconName}
+        title={item.coin}
+        subtitle={`Vol ${formatCompactUsd(item.volume24hUsd)}`}
+        value={formatUsd(item.priceUsd)}
+        changePct={item.changePct}
+      />
+    ),
     []
   );
 
@@ -106,11 +107,38 @@ const BodyBoxSection = ({ data }: { data: PopularAsset[] }) => {
       data={data}
       keyExtractor={(item) => item.id}
       renderItem={renderItem}
-      estimatedItemSize={60}
-      ItemSeparatorComponent={ThinLine}
+      estimatedItemSize={ESTIMATED_ROW_HEIGHT}
+      ItemSeparatorComponent={AssetSeparator}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 24 }}
-      ListFooterComponent={<View style={{ height: 72 }} />}
+      contentContainerStyle={styles.listContent}
+      ListFooterComponent={<View style={styles.listFooter} />}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  hidden: {
+    display: 'none',
+  },
+  modeToggle: {
+    width: '50%',
+    paddingHorizontal: spacing.s16,
+    paddingVertical: spacing.s16,
+  },
+  categoryToggle: {
+    width: '100%',
+    paddingHorizontal: spacing.s16,
+    paddingVertical: spacing.s8,
+  },
+  boxContent: {
+    gap: spacing.s16,
+    alignContent: 'center',
+    flex: 1,
+  },
+  listContent: {
+    paddingBottom: spacing.s24,
+  },
+  listFooter: {
+    height: LIST_FOOTER_HEIGHT,
+  },
+});

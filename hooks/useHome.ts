@@ -1,29 +1,25 @@
-import popularAssets, { PopularAsset } from "@/mocks/popularAssets";
-import { useEffect, useState } from "react";
+import useLoadable from "@/hooks/useLoadable";
+import { marketService } from "@/services/market-service";
+import type { HomeCategory, PopularAsset } from "@/types/market";
+import { buildCategoryMap } from "@/utils/market";
+import { useMemo, useState } from "react";
 
-export type HomeCategory = "Popular" | "Winners" | "Losers";
+const EMPTY_ASSETS: PopularAsset[] = [];
+const loadPopularAssets = () => marketService.getPopularAssets();
 
 const useHome = () => {
-	const popular = popularAssets;
-	const winners = popular.filter(asset => asset.change.trim().startsWith('+'));
-	const losers = popular.filter(asset => asset.change.trim().startsWith('-'));
-	const categoryMap: Record<HomeCategory, PopularAsset[]> = {
-		Popular: popular,
-		Winners: winners,
-		Losers: losers,
-	};
-
-	const [choosedData, setEditableData] = useState<PopularAsset[]>(popular);
+	const { data: popular = EMPTY_ASSETS, status, retry } = useLoadable(loadPopularAssets);
 	const [selectedCategory, setSelectedCategory] = useState<HomeCategory>("Popular");
 
-	useEffect(() => {
-		setEditableData(categoryMap[selectedCategory] || popular);
-	}, [selectedCategory]);
+	const categoryMap = useMemo(() => buildCategoryMap(popular), [popular]);
+	const assets = categoryMap[selectedCategory];
 
 	return {
-		choosedData,
+		assets,
+		status,
+		retry,
 		setSelectedCategory,
-	}
+	};
 };
 
 export default useHome;
