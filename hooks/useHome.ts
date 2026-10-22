@@ -1,13 +1,7 @@
-import { marketService, PopularAsset } from "@/services/market-service";
+import { marketService } from "@/services/market-service";
+import type { HomeCategory, PopularAsset } from "@/types/market";
+import { buildCategoryMap } from "@/utils/market";
 import { useEffect, useMemo, useState } from "react";
-
-export type HomeCategory = "Popular" | "Winners" | "Losers";
-
-const buildCategoryMap = (popular: PopularAsset[]): Record<HomeCategory, PopularAsset[]> => ({
-	Popular: popular,
-	Winners: popular.filter(asset => asset.change.trim().startsWith('+')),
-	Losers: popular.filter(asset => asset.change.trim().startsWith('-')),
-});
 
 const useHome = () => {
 	const [popular, setPopular] = useState<PopularAsset[]>([]);

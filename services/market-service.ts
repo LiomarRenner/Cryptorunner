@@ -1,13 +1,5 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import popularAssets from '@/mocks/popularAssets';
-
-export type PopularAsset = {
-  id: string;
-  iconName: React.ComponentProps<typeof Ionicons>['name'];
-  coin: string;
-  lastPrice: string;
-  change: string;
-};
+import type { PopularAsset } from '@/types/market';
 
 export interface MarketService {
   getPopularAssets(): Promise<PopularAsset[]>;

@@ -1,4 +1,4 @@
-import type { PopularAsset } from '@/services/market-service';
+import type { PopularAsset } from '@/types/market';
 
 const popularAssets: PopularAsset[] = [
   {
