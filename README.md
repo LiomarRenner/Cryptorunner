@@ -6,6 +6,10 @@ The goal of this project is to explore UI composition: theme tokens, small reusa
 
 **Status:** work in progress.
 
+## Visual direction
+
+The look is inspired by cyberpunk aesthetics and *Blade Runner*: near-black surfaces (`#0A0A0A`), a neon lime accent (`#BCFF31`) for gains and primary actions, and a coral red (`#FF4D4F`) for losses. The palette lives in `theme/themes.ts` as raw colors, with semantic tokens (`gain`, `loss`, `text_muted`, …) referencing them.
+
 ## What is in place
 
 - **Home**: an Exchange / Wallet toggle.
@@ -60,7 +64,7 @@ npm start
 
 `npm start` runs the Expo dev server; `npm run ios`, `npm run android` and `npm run web` start it for a specific platform.
 
-The JavaScript bundle builds for all three platforms with `npx expo export --platform web|ios|android`. Running the app on a device or simulator has not been re-checked since the latest changes.
+Verified running on the iOS simulator (iPhone 17 Pro, Expo Go). The JavaScript bundle also builds for Android and web with `npx expo export --platform android|web`; those two have not been run on a device or browser.
 
 ## Scripts
 
