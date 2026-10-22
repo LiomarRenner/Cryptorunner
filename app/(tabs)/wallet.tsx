@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     marginVertical: spacing.s16,
   },
   secondaryText: {
-    color: colors.text_secondary,
+    color: colors.text_muted,
   },
   linkText: {
     color: colors.primary_green,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   subtitle: {
-    color: colors.text_secondary,
+    color: colors.text_muted,
     fontSize: fontSize.md,
   },
   button: {

@@ -1,18 +1,27 @@
-const colors = {
+// Raw palette: every hex value lives here exactly once.
+const palette = {
   deep_black: '#0A0A0A',
+  black: '#000000',
   primary_green: '#BCFF31',
+  olive_green: '#99CC33',
   gray: '#94978F',
+  mid_gray: '#888888',
+  dark_gray: '#666666',
   red: '#E01925',
+  coral_red: '#FF4D4F',
   white: '#FFFFFF',
-  // Semantic tokens
-  text_muted: '#888888',
-  text_secondary: '#808080',
-  accent_muted: '#99CC33',
-  on_primary: '#000000',
-  divider: '#666666',
-  divider_subtle: '#808080',
-  gain: '#BCFF31',
-  loss: '#FF4D4F',
+};
+
+// Semantic tokens reference the palette instead of repeating hex values.
+const colors = {
+  ...palette,
+  text_muted: palette.mid_gray,
+  accent_muted: palette.olive_green,
+  on_primary: palette.black,
+  divider: palette.dark_gray,
+  divider_subtle: palette.mid_gray,
+  gain: palette.primary_green,
+  loss: palette.coral_red,
 };
 export type Colors = typeof colors;
 
