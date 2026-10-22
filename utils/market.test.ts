@@ -8,6 +8,7 @@ const asset = (id: string, changePct: number): PopularAsset => ({
   coin: `${id}/USDT`,
   priceUsd: 1,
   changePct,
+  volume24hUsd: 1_000_000,
 });
 
 describe('buildCategoryMap', () => {

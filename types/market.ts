@@ -9,6 +9,8 @@ export type PopularAsset = {
   priceUsd: number;
   // Percentage points, e.g. 2.5 means +2.5%.
   changePct: number;
+  // Traded volume over the last 24 hours, in USD.
+  volume24hUsd: number;
 };
 
 export type HomeCategory = 'Popular' | 'Winners' | 'Losers';

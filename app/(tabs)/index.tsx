@@ -12,7 +12,7 @@ import type { HomeCategory, HomeMode, PopularAsset } from '@/types/market'
 import type { LoadStatus } from '@/types/load-status'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
 import { themes } from '@/theme/themes'
-import { formatUsd } from '@/utils/format'
+import { formatCompactUsd, formatUsd } from '@/utils/format'
 
 const { spacing } = themes;
 
@@ -94,6 +94,7 @@ const BodyBoxSection = ({ data }: { data: PopularAsset[] }) => {
       <AssetRow
         iconName={item.iconName}
         title={item.coin}
+        subtitle={`Vol ${formatCompactUsd(item.volume24hUsd)}`}
         value={formatUsd(item.priceUsd)}
         changePct={item.changePct}
       />
