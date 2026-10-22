@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
   },
   accountRow: {
     flexDirection: 'row',
-    gap: spacing.sm,
+    gap: spacing.s8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: spacing.md,
+    marginVertical: spacing.s16,
   },
   secondaryText: {
     color: colors.text_secondary,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: spacing.md,
+    marginVertical: spacing.s16,
   },
   continueLine: {
     flex: 1,
@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.divider_subtle,
   },
   continueText: {
-    marginHorizontal: spacing.sm,
+    marginHorizontal: spacing.s8,
   },
   titleBlock: {
     alignItems: 'center',
-    gap: spacing.sm,
+    gap: spacing.s8,
   },
   title: {
     color: colors.white,
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.primary_green,
-    padding: spacing.md,
+    padding: spacing.s16,
     borderRadius: 38,
-    marginVertical: spacing.md,
+    marginVertical: spacing.s16,
   },
   buttonText: {
     color: colors.on_primary,
@@ -140,6 +140,6 @@ const styles = StyleSheet.create({
   socialRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: spacing.md,
+    marginVertical: spacing.s16,
   },
 });

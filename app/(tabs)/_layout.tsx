@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   headerLeft: {
-    marginLeft: spacing.md,
+    marginLeft: spacing.s16,
   },
   tabBarIcon: {
     marginTop: 44,

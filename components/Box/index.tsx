@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderTopRightRadius: 32,
     borderTopLeftRadius: 32,
-    padding: spacing.lg,
+    padding: spacing.s24,
   },
 });

@@ -23,12 +23,12 @@ const shape = {
 export type Shape = typeof shape;
 
 const spacing = {
-  xs: 4,
-  sm: 8,
-  sm_md: 12,
-  md: 16,
-  lg: 24,
-  xl: 32,
+  s4: 4,
+  s8: 8,
+  s12: 12,
+  s16: 16,
+  s24: 24,
+  s32: 32,
 };
 export type Spacing = typeof spacing;
 

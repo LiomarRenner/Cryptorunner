@@ -133,16 +133,16 @@ const BodyBoxSection = ({ data }: { data: PopularAsset[] }) => {
 const styles = StyleSheet.create({
   modeToggle: {
     width: '50%',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.s16,
+    paddingVertical: spacing.s16,
   },
   categoryToggle: {
     width: '100%',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.s16,
+    paddingVertical: spacing.s8,
   },
   boxContent: {
-    gap: spacing.md,
+    gap: spacing.s16,
     alignContent: 'center',
     flex: 1,
   },
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
-    gap: spacing.sm,
+    gap: spacing.s8,
   },
   headerText: {
     fontSize: fontSize.sm,
@@ -178,13 +178,13 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: colors.divider,
-    marginVertical: spacing.md,
+    marginVertical: spacing.s16,
   },
   changeBadge: {
     alignItems: 'center',
     borderRadius: shape.pill,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.sm_md,
+    paddingVertical: spacing.s8,
+    paddingHorizontal: spacing.s12,
   },
   changeBadgePositive: {
     backgroundColor: colors.gain,
@@ -204,13 +204,13 @@ const styles = StyleSheet.create({
   },
   errorState: {
     alignItems: 'center',
-    gap: spacing.md,
+    gap: spacing.s16,
   },
   retryButton: {
     backgroundColor: colors.primary_green,
     borderRadius: shape.pill,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.s8,
+    paddingHorizontal: spacing.s16,
   },
   retryText: {
     fontSize: fontSize.sm,
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     color: colors.on_primary,
   },
   listContent: {
-    paddingBottom: spacing.lg,
+    paddingBottom: spacing.s24,
   },
   listFooter: {
     height: LIST_FOOTER_HEIGHT,
