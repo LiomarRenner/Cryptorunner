@@ -1,12 +1,14 @@
 import { View, StyleSheet } from 'react-native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import CContainer from '@/components/core/CContainer'
 import SegmentedToggle from '@/components/SegmentedToggle'
 import Box from '@/components/Box'
 import AssetRow, { AssetColumnsHeader, AssetSeparator } from '@/components/AssetRow'
 import LoadState from '@/components/LoadState'
+import WalletOverview from '@/components/WalletOverview'
 import useHome from '@/hooks/useHome'
-import type { HomeCategory, PopularAsset } from '@/types/market'
+import useWallet from '@/hooks/useWallet'
+import type { HomeCategory, HomeMode, PopularAsset } from '@/types/market'
 import type { LoadStatus } from '@/types/load-status'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
 import { themes } from '@/theme/themes'
@@ -18,28 +20,49 @@ const ESTIMATED_ROW_HEIGHT = 60;
 // Leaves room so the last row is not hidden behind the floating tab bar.
 const LIST_FOOTER_HEIGHT = 72;
 
+// Data for both modes is loaded here, so switching modes does not refetch.
+// The category toggle is hidden instead of unmounted to keep its position.
 export default function Home() {
-  const { assets, status, retry, setSelectedCategory } = useHome();
+  const [mode, setMode] = useState<HomeMode>('Exchange');
+  const market = useHome();
+  const wallet = useWallet();
+  const isExchange = mode === 'Exchange';
+
   return (
     <CContainer>
-      <LayoutFirstSection setSelectedCategory={setSelectedCategory} />
-      <LayoutSecondSection data={assets} status={status} onRetry={retry} />
+      <LayoutFirstSection
+        isExchange={isExchange}
+        setMode={setMode}
+        setSelectedCategory={market.setSelectedCategory}
+      />
+      {isExchange ? (
+        <LayoutSecondSection data={market.assets} status={market.status} onRetry={market.retry} />
+      ) : (
+        <Box>
+          <LoadState status={wallet.status} errorMessage='Could not load wallet.' onRetry={wallet.retry}>
+            {wallet.summary && <WalletOverview summary={wallet.summary} allocation={wallet.allocation} />}
+          </LoadState>
+        </Box>
+      )}
     </CContainer>
   )
 }
 
-// The Exchange/Wallet toggle is visual only for now; it has no behavior wired yet.
-const noop = () => {};
+type LayoutFirstSectionProps = {
+  isExchange: boolean;
+  setMode: (mode: HomeMode) => void;
+  setSelectedCategory: (category: HomeCategory) => void;
+};
 
-const LayoutFirstSection = ({ setSelectedCategory }: { setSelectedCategory: (v: HomeCategory) => void }) => (
+const LayoutFirstSection = ({ isExchange, setMode, setSelectedCategory }: LayoutFirstSectionProps) => (
   <>
     <View style={styles.modeToggle}>
       <SegmentedToggle
         options={['Exchange', 'Wallet']}
-        onChange={noop}
+        onChange={(selected) => setMode(selected as HomeMode)}
       />
     </View>
-    <View style={styles.categoryToggle}>
+    <View style={[styles.categoryToggle, !isExchange && styles.hidden]}>
       <SegmentedToggle
         options={['Popular', 'Winners', 'Losers']}
         onChange={(selected) => setSelectedCategory(selected as HomeCategory)}
@@ -93,6 +116,9 @@ const BodyBoxSection = ({ data }: { data: PopularAsset[] }) => {
 };
 
 const styles = StyleSheet.create({
+  hidden: {
+    display: 'none',
+  },
   modeToggle: {
     width: '50%',
     paddingHorizontal: spacing.s16,

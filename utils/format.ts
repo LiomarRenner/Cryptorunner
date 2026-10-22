@@ -32,3 +32,6 @@ export const formatPercent = (value: number): string => {
 };
 
 export const formatAmount = (value: number): string => amountFormatter.format(value);
+
+// Unsigned share of a whole, e.g. an allocation slice.
+export const formatShare = (value: number): string => `${value.toFixed(1)}%`;

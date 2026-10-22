@@ -25,6 +25,15 @@ const colors = {
 };
 export type Colors = typeof colors;
 
+// Ordered colors for multi-part visuals such as the wallet allocation bar.
+const series = [
+  palette.primary_green,
+  palette.olive_green,
+  palette.white,
+  palette.gray,
+  palette.mid_gray,
+];
+
 const shape = {
   borderRadius: 8,
   pill: 64,
@@ -70,6 +79,7 @@ export type Typography = typeof typography;
 
 export const themes = {
   colors,
+  series,
   spacing,
   fontSize,
   typography,

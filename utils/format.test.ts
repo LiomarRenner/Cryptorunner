@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatAmount, formatPercent, formatUsd } from '@/utils/format';
+import { formatAmount, formatPercent, formatShare, formatUsd } from '@/utils/format';
 
 describe('formatUsd', () => {
   it('formats dollar values with thousands separators and two decimals', () => {
@@ -49,5 +49,13 @@ describe('formatAmount', () => {
 
   it('keeps up to eight decimals', () => {
     expect(formatAmount(0.123456789)).toBe('0.12345679');
+  });
+});
+
+describe('formatShare', () => {
+  it('shows one decimal without a sign', () => {
+    expect(formatShare(65.08)).toBe('65.1%');
+    expect(formatShare(100)).toBe('100.0%');
+    expect(formatShare(0)).toBe('0.0%');
   });
 });

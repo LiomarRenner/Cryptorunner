@@ -36,3 +36,5 @@ export type AllocationSlice = {
   // Share of the total balance, 0 to 100.
   percent: number;
 };
+
+export type HomeMode = 'Exchange' | 'Wallet';
