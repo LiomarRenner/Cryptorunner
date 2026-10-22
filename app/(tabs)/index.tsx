@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Text, ActivityIndicator, Pressable, StyleSheet } from 'react-native'
 import React, { memo, useCallback } from 'react'
 import CContainer from '@/components/core/CContainer'
 import SegmentedToggle from '@/components/SegmentedToggle'
@@ -6,6 +6,7 @@ import Box from '@/components/Box'
 import BaseIcon from '@/components/BaseIcon'
 import useHome from '@/hooks/useHome'
 import type { HomeCategory, PopularAsset } from '@/types/market'
+import type { LoadStatus } from '@/types/load-status'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
 import { themes } from '@/theme/themes'
 
@@ -16,11 +17,11 @@ const ESTIMATED_ROW_HEIGHT = 60;
 const LIST_FOOTER_HEIGHT = 72;
 
 export default function Home() {
-  const { assets, isLoading, setSelectedCategory } = useHome();
+  const { assets, status, retry, setSelectedCategory } = useHome();
   return (
     <CContainer>
       <LayoutFirstSection setSelectedCategory={setSelectedCategory} />
-      <LayoutSecondSection data={assets} isLoading={isLoading} />
+      <LayoutSecondSection data={assets} status={status} onRetry={retry} />
     </CContainer>
   )
 }
@@ -45,13 +46,30 @@ const LayoutFirstSection = ({ setSelectedCategory }: { setSelectedCategory: (v: 
   </>
 );
 
-const LayoutSecondSection = ({ data, isLoading }: { data: PopularAsset[]; isLoading: boolean }) => (
+type LayoutSecondSectionProps = {
+  data: PopularAsset[];
+  status: LoadStatus;
+  onRetry: () => void;
+};
+
+const LayoutSecondSection = ({ data, status, onRetry }: LayoutSecondSectionProps) => (
   <Box>
     <View style={styles.boxContent}>
       <TitleBoxSection />
-      {isLoading ? <ActivityIndicator color={colors.primary_green} /> : <BodyBoxSection data={data} />}
+      {status === 'loading' && <ActivityIndicator color={colors.primary_green} />}
+      {status === 'error' && <ErrorState onRetry={onRetry} />}
+      {status === 'success' && <BodyBoxSection data={data} />}
     </View>
   </Box>
+);
+
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <View style={styles.errorState}>
+    <Text style={styles.headerText}>Could not load assets.</Text>
+    <Pressable onPress={onRetry} style={styles.retryButton}>
+      <Text style={styles.retryText}>Try again</Text>
+    </Pressable>
+  </View>
 );
 
 const TitleBoxSection = () => (
@@ -183,6 +201,21 @@ const styles = StyleSheet.create({
   },
   changeTextNegative: {
     color: colors.white,
+  },
+  errorState: {
+    alignItems: 'center',
+    gap: spacing.md,
+  },
+  retryButton: {
+    backgroundColor: colors.primary_green,
+    borderRadius: shape.pill,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+  },
+  retryText: {
+    fontSize: fontSize.sm,
+    fontWeight: '500',
+    color: colors.on_primary,
   },
   listContent: {
     paddingBottom: spacing.lg,

@@ -5,12 +5,24 @@ export interface MarketService {
   getPopularAssets(): Promise<PopularAsset[]>;
 }
 
-const MOCK_LATENCY_MS = 300;
+type MockMarketServiceOptions = {
+  latencyMs?: number;
+  // Forces every request to fail, useful to exercise the error state.
+  shouldFail?: boolean;
+};
+
+const DEFAULT_LATENCY_MS = 300;
 
 // Returns static mock data after a short delay to mimic a network call.
 export class MockMarketService implements MarketService {
+  constructor(private readonly options: MockMarketServiceOptions = {}) {}
+
   async getPopularAssets(): Promise<PopularAsset[]> {
-    await new Promise(resolve => setTimeout(resolve, MOCK_LATENCY_MS));
+    const { latencyMs = DEFAULT_LATENCY_MS, shouldFail = false } = this.options;
+    await new Promise(resolve => setTimeout(resolve, latencyMs));
+    if (shouldFail) {
+      throw new Error('Mock market request failed');
+    }
     return popularAssets;
   }
 }

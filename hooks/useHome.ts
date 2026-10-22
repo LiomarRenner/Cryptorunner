@@ -1,11 +1,13 @@
 import { marketService } from "@/services/market-service";
+import type { LoadStatus } from "@/types/load-status";
 import type { HomeCategory, PopularAsset } from "@/types/market";
 import { buildCategoryMap } from "@/utils/market";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const useHome = () => {
 	const [popular, setPopular] = useState<PopularAsset[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const [status, setStatus] = useState<LoadStatus>("loading");
+	const [requestId, setRequestId] = useState(0);
 	const [selectedCategory, setSelectedCategory] = useState<HomeCategory>("Popular");
 
 	useEffect(() => {
@@ -13,14 +15,21 @@ const useHome = () => {
 		marketService
 			.getPopularAssets()
 			.then(data => {
-				if (isActive) setPopular(data);
+				if (!isActive) return;
+				setPopular(data);
+				setStatus("success");
 			})
-			.finally(() => {
-				if (isActive) setIsLoading(false);
+			.catch(() => {
+				if (isActive) setStatus("error");
 			});
 		return () => {
 			isActive = false;
 		};
+	}, [requestId]);
+
+	const retry = useCallback(() => {
+		setStatus("loading");
+		setRequestId(id => id + 1);
 	}, []);
 
 	const categoryMap = useMemo(() => buildCategoryMap(popular), [popular]);
@@ -28,7 +37,8 @@ const useHome = () => {
 
 	return {
 		assets,
-		isLoading,
+		status,
+		retry,
 		setSelectedCategory,
 	};
 };
