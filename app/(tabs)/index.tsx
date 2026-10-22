@@ -18,12 +18,15 @@ export default function Home() {
   )
 }
 
+// The Exchange/Wallet toggle is visual only for now; it has no behavior wired yet.
+const noop = () => {};
+
 const LayoutFirstSection = ({ setSelectedCategory }: { setSelectedCategory: (v:HomeCategory) => void }) => (
   <>
     <View style={{ width: '50%', paddingHorizontal: 16, paddingVertical: 16 }}>
       <SegmentedToggle
         options={['Exchange', 'Wallet']}
-        onChange={(selected) => console.log('Selecionado:', selected)}
+        onChange={noop}
       />
     </View>
     <View style={{ width: '100%', paddingHorizontal: 16, paddingVertical: 8 }}>

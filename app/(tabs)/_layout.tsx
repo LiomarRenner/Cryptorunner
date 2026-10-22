@@ -18,7 +18,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#BCFF31',
         tabBarShowLabel: false,
         headerLeft: () => (
-          <Pressable style={{ marginLeft: 16 }} onPress={() => console.log('Menu Pressed')}>
+          <Pressable style={{ marginLeft: 16 }}>
             <BaseIcon name='person' size={24} color="#BCFF31" />
           </Pressable>
         ),

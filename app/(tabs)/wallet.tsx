@@ -16,7 +16,7 @@ export default function Wallet() {
       </View>
       <Box>
         <BoxTitleSubtitle title='Sign up and get rewards' subtitle='Sign up now and earn exciting rewards instantly!' />
-        <CButton onPress={() => console.log('Sign Up Pressed')} text='Sign up' />
+        <CButton text='Sign up' />
         <ContinueLine />
         <SocialLogin />
         <AlreadyHaveAccount />
@@ -28,7 +28,7 @@ export default function Wallet() {
 const AlreadyHaveAccount = () => (
   <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center', marginVertical: 16 }}>
     <Text style={{ color: 'gray' }}>Already have an account?</Text>
-    <Pressable onPress={() => console.log('Log in Pressed')}>
+    <Pressable>
       <Text style={{ color: '#BCFF31' }}>Log in</Text>
     </Pressable>
   </View>
@@ -49,7 +49,7 @@ const BoxTitleSubtitle = ({ title, subtitle }: { title: string; subtitle: string
   </View>
 );
 
-const CButton = ({ onPress, text }: { onPress: () => void; text: string }) => (
+const CButton = ({ onPress, text }: { onPress?: () => void; text: string }) => (
   <Pressable onPress={onPress} style={{ backgroundColor: '#BCFF31', padding: 16, borderRadius: 38, marginVertical: 16 }}>
     <Text style={{ color: 'black', fontWeight: '500', textAlign: 'center', fontSize: 16 }}>{text}</Text>
   </Pressable>
@@ -57,13 +57,13 @@ const CButton = ({ onPress, text }: { onPress: () => void; text: string }) => (
 
 const SocialLogin = () => (
   <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginVertical: 16 }}>
-    <Pressable onPress={() => console.log('Google Login Pressed')}>
+    <Pressable>
       <BaseIcon name='logo-google' color='#BCFF31' size={44} />  
     </Pressable>
-    <Pressable onPress={() => console.log('Apple Login Pressed')}>
+    <Pressable>
       <BaseIcon name='logo-apple' color='#BCFF31' size={44} />
     </Pressable>
-    <Pressable onPress={() => console.log('Facebook Login Pressed')}>
+    <Pressable>
       <BaseIcon name='logo-facebook' color='#BCFF31' size={44} />
     </Pressable>
   </View>
