@@ -1,8 +1,11 @@
 import popularAssets from '@/mocks/popularAssets';
-import type { PopularAsset } from '@/types/market';
+import walletHoldings from '@/mocks/walletHoldings';
+import type { PopularAsset, WalletSummary } from '@/types/market';
+import { summarizeWallet } from '@/utils/wallet';
 
 export interface MarketService {
   getPopularAssets(): Promise<PopularAsset[]>;
+  getWalletSummary(): Promise<WalletSummary>;
 }
 
 type MockMarketServiceOptions = {
@@ -18,12 +21,21 @@ export class MockMarketService implements MarketService {
   constructor(private readonly options: MockMarketServiceOptions = {}) {}
 
   async getPopularAssets(): Promise<PopularAsset[]> {
+    await this.simulateRequest();
+    return popularAssets;
+  }
+
+  async getWalletSummary(): Promise<WalletSummary> {
+    await this.simulateRequest();
+    return summarizeWallet(walletHoldings);
+  }
+
+  private async simulateRequest(): Promise<void> {
     const { latencyMs = DEFAULT_LATENCY_MS, shouldFail = false } = this.options;
     await new Promise(resolve => setTimeout(resolve, latencyMs));
     if (shouldFail) {
       throw new Error('Mock market request failed');
     }
-    return popularAssets;
   }
 }
 
