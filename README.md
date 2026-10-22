@@ -45,13 +45,13 @@ theme/themes.ts      Design tokens: a raw palette, semantic colors that referenc
 
 ### Swapping the data source
 
-Screens never import mock data directly. `services/market-service.ts` exports a single `marketService` instance typed as the `MarketService` interface:
+Screens never import mock data directly. `services/market-service.ts` exports a single `marketService` object typed as `MarketService`, created by a factory function:
 
 ```ts
-export const marketService: MarketService = new MockMarketService();
+export const marketService: MarketService = createMockMarketService();
 ```
 
-Pointing the app at a real backend means writing another class that implements `MarketService` and changing that line. `MockMarketService` also takes `latencyMs` and `shouldFail` options, which help when working on the loading and error states.
+Pointing the app at a real backend means writing another factory that returns a `MarketService` object (for example `createApiMarketService()`) and changing that line. `createMockMarketService` also takes `latencyMs` and `shouldFail` options, which help when working on the loading and error states.
 
 ## Running locally
 
