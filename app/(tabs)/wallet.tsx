@@ -8,6 +8,9 @@ import { themes } from '@/theme/themes'
 const { colors, spacing, fontSize } = themes;
 
 const SOCIAL_ICON_SIZE = 44;
+const HERO_IMAGE_SIZE = 250;
+const HERO_IMAGE_RADIUS = 100;
+const BUTTON_RADIUS = 38;
 
 export default function Wallet() {
   return (
@@ -81,9 +84,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heroImage: {
-    width: 250,
-    height: 250,
-    borderRadius: 100,
+    width: HERO_IMAGE_SIZE,
+    height: HERO_IMAGE_SIZE,
+    borderRadius: HERO_IMAGE_RADIUS,
   },
   accountRow: {
     flexDirection: 'row',
@@ -128,7 +131,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primary_green,
     padding: spacing.s16,
-    borderRadius: 38,
+    borderRadius: BUTTON_RADIUS,
     marginVertical: spacing.s16,
   },
   buttonText: {

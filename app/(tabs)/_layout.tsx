@@ -7,6 +7,14 @@ import { themes } from '@/theme/themes';
 
 const { colors, spacing } = themes;
 
+const HEADER_HEIGHT = 100;
+const HEADER_ICON_SIZE = 24;
+const TAB_ICON_SIZE = 24;
+const TAB_ICON_MARGIN_TOP = 44;
+const TAB_BAR_HEIGHT = 80;
+const TAB_BAR_RADIUS = 36;
+const TAB_BAR_BOTTOM_OFFSET = 20;
+
 export default function TabLayout() {
   return (
     <Tabs
@@ -19,7 +27,7 @@ export default function TabLayout() {
         tabBarShowLabel: false,
         headerLeft: () => (
           <Pressable style={styles.headerLeft}>
-            <BaseIcon name='person' size={24} color={colors.primary_green} />
+            <BaseIcon name='person' size={HEADER_ICON_SIZE} color={colors.primary_green} />
           </Pressable>
         ),
       }}>
@@ -69,7 +77,7 @@ function TabBarIcon(props: {
 }) {
   return (
     <View style={styles.tabBarIcon}>
-      <BaseIcon size={24} {...props} />
+      <BaseIcon size={TAB_ICON_SIZE} {...props} />
     </View>
   );
 }
@@ -77,23 +85,23 @@ function TabBarIcon(props: {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: colors.deep_black,
-    height: 100,
+    height: HEADER_HEIGHT,
   },
   headerLeft: {
     marginLeft: spacing.s16,
   },
   tabBarIcon: {
-    marginTop: 44,
+    marginTop: TAB_ICON_MARGIN_TOP,
     position: 'absolute',
   },
   tabBar: {
     position: 'absolute',
-    bottom: 20,
+    bottom: TAB_BAR_BOTTOM_OFFSET,
     marginHorizontal: '5%',
     width: '90%',
     alignSelf: 'center',
-    height: 80,
-    borderRadius: 36,
+    height: TAB_BAR_HEIGHT,
+    borderRadius: TAB_BAR_RADIUS,
     backgroundColor: colors.gray,
     elevation: 5,
     shadowColor: colors.deep_black,

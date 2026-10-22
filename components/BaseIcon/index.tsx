@@ -11,6 +11,7 @@ type BaseIconProps = {
 };
 
 const DEFAULT_ICON_SIZE = 28;
+const CONTAINER_SIZE = 44;
 
 export default function BaseIcon(props: BaseIconProps) {
 	return (
@@ -29,9 +30,9 @@ export default function BaseIcon(props: BaseIconProps) {
 
 const styles = StyleSheet.create({
 	circle: {
-		width: 44,
-		height: 44,
-		borderRadius: 22,
+		width: CONTAINER_SIZE,
+		height: CONTAINER_SIZE,
+		borderRadius: CONTAINER_SIZE / 2,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
