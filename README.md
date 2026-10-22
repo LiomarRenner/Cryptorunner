@@ -8,8 +8,11 @@ The goal of this project is to explore UI composition: theme tokens, small reusa
 
 ## What is in place
 
-- **Home**: a market list (pair, last price, change) with a Popular / Winners / Losers filter. It has loading, error-with-retry and content states. The Exchange / Wallet toggle above it is visual only for now.
-- **Wallet**: a static sign-up screen (sign-up button, social login icons, log-in link). The buttons are not wired to any flow.
+- **Home**: an Exchange / Wallet toggle.
+  - *Exchange* shows a market list (pair, last price, change) with a Popular / Winners / Losers filter.
+  - *Wallet* shows a mocked portfolio: total balance and change, an allocation bar with a legend, and the list of holdings. Totals and allocation are computed from the holdings.
+  - Both views have loading, error-with-retry and content states.
+- **Wallet tab**: a static sign-up screen (sign-up button, social login icons, log-in link). The buttons are not wired to any flow.
 - **Market** and **Analytics**: placeholder tabs.
 - A floating tab bar and a shared header.
 
@@ -18,7 +21,7 @@ The goal of this project is to explore UI composition: theme tokens, small reusa
 - React Native 0.79 with Expo SDK 53 and Expo Router (file-based routing, typed routes)
 - TypeScript (strict)
 - React Native Reanimated for the segmented control indicator
-- FlashList for the asset list
+- FlashList for the market and holdings lists
 - Vitest for unit tests of pure functions
 
 ## Project structure
@@ -27,13 +30,13 @@ The goal of this project is to explore UI composition: theme tokens, small reusa
 app/                 Expo Router routes
   _layout.tsx        Root stack, fonts, splash screen
   (tabs)/            Tab navigator and the four tab screens
-components/          Reusable UI (Box, BaseIcon, SegmentedToggle, core/CContainer)
-hooks/               Screen-level hooks (useHome)
+components/          Reusable UI (AssetRow, LoadState, WalletOverview, SegmentedToggle, Box, BaseIcon, core/CContainer)
+hooks/               Data hooks (useHome, useWallet, and the generic useLoadable)
 services/            MarketService interface and its mock implementation
 mocks/               Static mock data used by the mock service
 types/               Domain and shared types
-utils/               Pure helpers, with their unit tests next to them
-theme/themes.ts      Design tokens: colors, spacing, font sizes, shape, typography
+utils/               Pure helpers (formatting, category split, wallet totals and allocation), with their unit tests next to them
+theme/themes.ts      Design tokens: a raw palette, semantic colors that reference it, a numeric spacing scale, font sizes, shape, typography
 ```
 
 ### Swapping the data source
@@ -48,7 +51,7 @@ Pointing the app at a real backend means writing another class that implements `
 
 ## Running locally
 
-Requirements: Node.js 20 or newer, and either Expo Go on a device or an iOS simulator / Android emulator.
+Requirements: Node.js 18.18 or newer (the minimum declared by React Native 0.79 and Metro), and either Expo Go on a device or an iOS simulator / Android emulator.
 
 ```bash
 npm install
@@ -64,7 +67,6 @@ Then press `i` for the iOS simulator, `a` for the Android emulator, or scan the 
 | `npm start`       | Start the Expo dev server            |
 | `npm run ios`     | Start and open the iOS simulator     |
 | `npm run android` | Start and open the Android emulator  |
-| `npm run web`     | Start the web build                  |
 | `npm test`        | Run the Vitest unit tests once       |
 
 Type checking: `npx tsc --noEmit`.
