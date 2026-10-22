@@ -4,22 +4,38 @@ const colors = {
   gray: '#94978F',
   red: '#E01925',
   white: '#FFFFFF',
+  // Semantic tokens
+  text_muted: '#888888',
+  on_primary: '#000000',
+  divider: '#666666',
+  gain: '#BCFF31',
+  loss: '#FF4D4F',
 };
 export type Colors = typeof colors;
 
 const shape = {
   borderRadius: 8,
+  pill: 64,
 };
 export type Shape = typeof shape;
 
 const spacing = {
   xs: 4,
   sm: 8,
+  sm_md: 12,
   md: 16,
   lg: 24,
   xl: 32,
 };
 export type Spacing = typeof spacing;
+
+const fontSize = {
+  sm: 14,
+  md: 16,
+  lg: 18,
+  xl: 24,
+};
+export type FontSize = typeof fontSize;
 
 const typography = {
   h1: {
@@ -43,6 +59,7 @@ export type Typography = typeof typography;
 export const themes = {
   colors,
   spacing,
+  fontSize,
   typography,
   shape,
 };
