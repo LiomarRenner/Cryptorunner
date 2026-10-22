@@ -1,19 +1,19 @@
-import { View, Text } from 'react-native'
+import { View, Text, ActivityIndicator } from 'react-native'
 import React, { memo, useCallback } from 'react'
 import CContainer from '@/components/core/CContainer'
 import SegmentedToggle from '@/components/SegmentedToggle'
 import Box from '@/components/Box'
 import BaseIcon from '@/components/BaseIcon'
 import useHome, { HomeCategory } from '@/hooks/useHome'
-import { PopularAsset } from '@/mocks/popularAssets'
+import { PopularAsset } from '@/services/market-service'
 import { FlashList, ListRenderItem } from '@shopify/flash-list'
 
 export default function Home() {
-  const { assets, setSelectedCategory } = useHome();
+  const { assets, isLoading, setSelectedCategory } = useHome();
   return (
     <CContainer>
       <LayoutFirstSection setSelectedCategory={setSelectedCategory} />
-      <LayoutSecondSection data={assets} />
+      <LayoutSecondSection data={assets} isLoading={isLoading} />
     </CContainer>
   )
 }
@@ -35,11 +35,11 @@ const LayoutFirstSection = ({ setSelectedCategory }: { setSelectedCategory: (v:H
   </>
 );
 
-const LayoutSecondSection = ({ data }: { data: PopularAsset[] }) => (
+const LayoutSecondSection = ({ data, isLoading }: { data: PopularAsset[]; isLoading: boolean }) => (
   <Box>
     <View style={{ gap: 16, alignContent: 'center', flex: 1 }}>
       <TitleBoxSection />
-      <BodyBoxSection data={data} />
+      {isLoading ? <ActivityIndicator color='#BCFF31' /> : <BodyBoxSection data={data} />}
     </View>
   </Box>
 );

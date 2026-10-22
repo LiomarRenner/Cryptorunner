@@ -1,12 +1,4 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-
-export type PopularAsset = {
-  id: string;
-  iconName: React.ComponentProps<typeof Ionicons>['name'];
-  coin: string;
-  lastPrice: string;
-  change: string;
-};
+import type { PopularAsset } from '@/services/market-service';
 
 const popularAssets: PopularAsset[] = [
   {
