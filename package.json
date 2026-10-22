@@ -1,7 +1,7 @@
 {
   "name": "cryptorunner",
   "main": "expo-router/entry",
-  "license": "0BSD",
+  "license": "MIT",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
